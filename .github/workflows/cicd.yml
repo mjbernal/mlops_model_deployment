@@ -15,6 +15,12 @@ jobs:
           tag_with_ref: true
           tag_with_sha: true
           tags: ${{ github.sha }}
+      - name: create deployment
+        uses: steebchen/kubectl@master
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+        with:
+          args: create deployment deployment/my-app --image=prueba-gha=${{ github.repository }}:${{ github.sha }}
       - name: deploy to cluster
         uses: steebchen/kubectl@master
         env:

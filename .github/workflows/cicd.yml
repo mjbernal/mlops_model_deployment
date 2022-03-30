@@ -15,9 +15,9 @@ jobs:
           tag_with_ref: true
           tag_with_sha: true
           tags: ${{ github.sha }}
-      - name: prueba kubernetes
+      - name: prueba get pods
         uses: steebchen/kubectl@master
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
         with:
-          args: get pods
+          args: get pods -A

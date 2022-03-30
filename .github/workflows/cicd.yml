@@ -1,28 +1,36 @@
 on: push
 name: deploy
 jobs:
-  build-and-push:
-    name: build and push image
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@master
-    - name: build and push to docker
-      uses: docker/build-push-action@v2
-      with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
-        repository: ${{ github.repository }}
-        tag_with_ref: true
-        tag_with_sha: true
-        tags: ${{ github.sha }}
-  deploy-to-cluster:
+  deploy:
     name: deploy to cluster
     runs-on: ubuntu-latest
-    needs: build-and-push
     steps:
-    - name: deploy to cluster
-      uses: steebchen/kubectl@master
-      env:
-        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-      with:
-        args: get pods -A
+      - uses: actions/checkout@master
+      - name: build and push to docker
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: ${{ github.repository }}
+          tag_with_ref: true
+          tag_with_sha: true
+          tags: ${{ github.sha }}
+      - name: create deployment
+        uses: steebchen/kubectl@master
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+        with:
+          args: create deployment deployment/my-app --image=prueba-gha=${{ github.repository }}:${{ github.sha }}
+      - name: deploy to cluster
+        uses: steebchen/kubectl@master
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+        with:
+          args: create deployment --image=${{ github.repository }}:${{ github.sha }} my-app
+      - name: verify deployment
+        uses: steebchen/kubectl@master
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+          KUBECTL_VERSION: "1.20"
+        with:
+          args: '"rollout status deployment/my-app"'

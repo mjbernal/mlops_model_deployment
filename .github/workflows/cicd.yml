@@ -1,23 +1,15 @@
-on: push
-name: deploy
+name: Get pods
+on: [push]
+
 jobs:
   deploy:
-    name: deploy to cluster
+    name: Deploy
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@master
-      - name: build and push to docker
-        uses: docker/build-push-action@v1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: ${{ github.repository }}
-          tag_with_ref: true
-          tag_with_sha: true
-          tags: ${{ github.sha }}
-      - name: prueba get pods
-        uses: steebchen/kubectl@master
+      - uses: actions/checkout@v1
+      - uses: actions-hub/kubectl@master
         env:
-          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG_DATA }}
         with:
-          args: get pods -A
+          args: get pods

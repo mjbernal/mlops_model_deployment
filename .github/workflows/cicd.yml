@@ -15,3 +15,13 @@ jobs:
         python-version: '3.9'
         cache: 'pip'
     - run: pip install -r requirements.txt
+  s2i:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install CLI tools from GitHub
+      uses: redhat-actions/openshift-tools-installer@v1
+      with:
+        source: "github"
+        # Using GitHub token from the github context
+        github_pat: ${{ github.token }}
+        s2i: "1.2"

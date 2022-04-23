@@ -25,3 +25,5 @@ jobs:
         # Using GitHub token from the github context
         github_pat: ${{ github.token }}
         s2i: "1.2"
+    - name: Ejecutar s2i
+      run: s2i usage seldonio/seldon-core-s2i-python3:1.14.0-dev

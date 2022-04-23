@@ -26,4 +26,4 @@ jobs:
         github_pat: ${{ github.token }}
         s2i: "1.2"
     - name: Ejecutar s2i
-      run: s2i build https://github.com/mjbernal/prueba-gha.git seldonio/seldon-core-s2i-python3 seldon-core-template-model
+      run: s2i build https://github.com/mjbernal/prueba-gha.git --context-dir=mymodel seldonio/seldon-core-s2i-python3 seldon-core-template-model

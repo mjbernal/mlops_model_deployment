@@ -1,1 +1,3 @@
 seldon-core
+setuptools-rust
+scikit-learn

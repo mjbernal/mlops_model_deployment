@@ -6,24 +6,16 @@ on:
       - "master"
 
 jobs:
-  docker:
+  pip:
     runs-on: ubuntu-latest
     steps:
-    - uses: docker-practice/actions-setup-docker@master
-    - run:
-        set -x
-        docker version
-        docker run --rm hello-world
-
     - uses: actions/checkout@v3
     - uses: actions/setup-python@v3
       with:
         python-version: '3.9'
         cache: 'pip'
     - run: pip install -r requirements.txt
-  s2i:
-    runs-on: ubuntu-latest
-    steps:
+
     - name: Install CLI tools from GitHub
       uses: redhat-actions/openshift-tools-installer@v1
       with:
@@ -33,3 +25,12 @@ jobs:
         s2i: "1.2"
     - name: Ejecutar s2i
       run: s2i build https://github.com/mjbernal/prueba-gha.git --context-dir=mymodel seldonio/seldon-core-s2i-python3 mjbernal/mymodel
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: docker-practice/actions-setup-docker@master
+    - run:
+        set -x
+        docker version
+        docker run --rm hello-world
+        docker images

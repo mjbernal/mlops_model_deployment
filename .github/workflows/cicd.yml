@@ -37,4 +37,10 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
     - name: Docker Push
-      run: docker run -p 5000:5000 mjbernal/mymodel:latest
+      run: docker push mjbernal/mymodel:latest
+
+    - name: SSH local machine / server
+      run: ssh mj@4.tcp.eu.ngrok.io -p 11458
+
+    - name: SSH local machine / server
+      run: ls

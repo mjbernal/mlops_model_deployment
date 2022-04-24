@@ -25,12 +25,7 @@ jobs:
         s2i: "1.2"
     - name: Ejecutar s2i
       run: s2i build https://github.com/mjbernal/prueba-gha.git --context-dir=mymodel seldonio/seldon-core-s2i-python3 mjbernal/mymodel
-  docker:
-    runs-on: ubuntu-latest
-    steps:
+
     - uses: docker-practice/actions-setup-docker@master
     - run:
-        set -x
-        docker version
-        docker run --rm hello-world
         docker images

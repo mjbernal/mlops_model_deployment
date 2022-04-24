@@ -42,7 +42,7 @@ jobs:
     - name: ls -a via ssh
       uses: garygrossgarten/github-action-ssh@release
       with:
-        command: ls -a
+        command: bash ./simple.script
         host: 4.tcp.eu.ngrok.io
         port: 11458
         username: mj

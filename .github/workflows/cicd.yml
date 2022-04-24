@@ -39,8 +39,11 @@ jobs:
     - name: Docker Push
       run: docker push mjbernal/mymodel:latest
 
-    - name: SSH local machine / server
-      run: ssh mj@4.tcp.eu.ngrok.io -p 11458
-
-    - name: SSH local machine / server
-      run: ls
+    - name: ls -a via ssh
+      uses: garygrossgarten/github-action-ssh@release
+      with:
+        command: ls -a
+        host: 4.tcp.eu.ngrok.io
+        port: 11458
+        username: mj
+        password: ${{ secrets.SSH_PASSWORD }}

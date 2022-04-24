@@ -20,9 +20,9 @@ jobs:
     - name: pip
       uses: actions/checkout@v3
       uses: actions/setup-python@v3
-        with:
-          python-version: '3.9'
-          cache: 'pip'
+      with:
+        python-version: '3.9'
+        cache: 'pip'
       run: pip install -r requirements.txt
   s2i:
     runs-on: ubuntu-latest

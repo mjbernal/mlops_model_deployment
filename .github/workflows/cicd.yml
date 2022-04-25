@@ -9,6 +9,7 @@ jobs:
   pip:
     runs-on: ubuntu-latest
     steps:
+    # Instalar dependencias
     - uses: actions/checkout@v3
     - uses: actions/setup-python@v3
       with:
@@ -16,34 +17,40 @@ jobs:
         cache: 'pip'
     - run: pip install -r requirements.txt
 
-    - name: Install CLI tools from GitHub
+    # Instalar s2i
+    - name: Instalar S2I
       uses: redhat-actions/openshift-tools-installer@v1
       with:
         source: "github"
         # Using GitHub token from the github context
         github_pat: ${{ github.token }}
         s2i: "1.2"
+    # Crear la imagen Docker del modelo con s2i
     - name: Ejecutar s2i
       run: s2i build https://github.com/mjbernal/prueba-gha.git --context-dir=mymodel seldonio/seldon-core-s2i-python3 mjbernal/mymodel
 
+    # Instalar Docker
     - uses: docker-practice/actions-setup-docker@master
-    - run:
-        docker images
+    - run: docker images
 
+    # Iniciar sesion en DockerHub
     - name: Login to Docker Hub
       uses: docker/login-action@v1
       with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+    # Subir la imagen del modelo a DockerHub
     - name: Docker Push
       run: docker push mjbernal/mymodel:latest
 
-    - name: ls -a via ssh
+    # Conectarse a la maquina del host para descargar la imagen de DockerHub
+    # Crear/iniciar un contenedor Docker con ella
+    - name: Acceder mediante SSH al host o servidor donde queremos desplegar el sevicio REST
       uses: garygrossgarten/github-action-ssh@release
       with:
         command: bash ./simple.script
-        host: 4.tcp.eu.ngrok.io
+        host: 4.tcp.eu.ngrok.io # Dirección estática temporal creada con ngrok en el host
         port: 11458
         username: mj
         password: ${{ secrets.SSH_PASSWORD }}

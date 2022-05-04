@@ -11,12 +11,12 @@ jobs:
     steps:
     
     # Instalar python y dependencias
-    - uses: actions/checkout@v3
-    - uses: actions/setup-python@v3
-      with:
-        python-version: '3.9'
-        cache: 'pip'
-    - run: pip install -r requirements.txt
+    #- uses: actions/checkout@v3
+    #- uses: actions/setup-python@v3
+    #  with:
+    #    python-version: '3.9'
+    #    cache: 'pip'
+    #- run: pip install -r requirements.txt
 
     # Instalar s2i
     - name: Instalar S2I
@@ -29,7 +29,7 @@ jobs:
 
     # Crear la imagen Docker del modelo con s2i
     - name: Ejecutar s2i
-      run: s2i build https://github.com/mjbernal/prueba-gha.git --context-dir=mymodel seldonio/seldon-core-s2i-python3 mjbernal/mymodel
+      run: s2i build https://github.com/mjbernal/prueba-gha.git --context-dir=mymodel-R seldonio/seldon-core-s2i-r:0.1 mjbernal/mymodel-r
 
     # Instalar Docker
     - uses: docker-practice/actions-setup-docker@master
@@ -44,7 +44,7 @@ jobs:
 
     # Subir la imagen del modelo a DockerHub
     - name: Docker Push
-      run: docker push mjbernal/mymodel:latest
+      run: docker push mjbernal/mymodel-r:latest
 
     # Conectarse a la maquina del host para descargar la imagen de DockerHub
     # Crear/iniciar un contenedor Docker con ella
@@ -52,7 +52,7 @@ jobs:
       uses: garygrossgarten/github-action-ssh@release
       with:
         command: bash ./simple.script
-        host: 4.tcp.eu.ngrok.io # Dirección estática temporal creada con ngrok en el host
-        port: 11458
+        host: 6.tcp.eu.ngrok.io # Dirección estática temporal creada con ngrok en el host
+        port: 14193
         username: mj
         password: ${{ secrets.SSH_PASSWORD }}

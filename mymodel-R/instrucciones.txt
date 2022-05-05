@@ -1,4 +1,0 @@
-install.packages('txtplot')
-
-setwd("/home/mj/Escritorio/ModelosEjemplo")
-

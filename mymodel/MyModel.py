@@ -11,7 +11,7 @@ class MyModel(object):
 
     def predict(self,X,features_names):
         """
-        Return a prediction.
+        Return prediction.
         Parameters
         ----------
         X : array-like

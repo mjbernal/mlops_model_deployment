@@ -52,7 +52,7 @@ jobs:
       uses: garygrossgarten/github-action-ssh@release
       with:
         command: bash ./simple.script
-        host: 6.tcp.eu.ngrok.io # Dirección estática temporal creada con ngrok en el host
-        port: 14193
+        host: 2.tcp.eu.ngrok.io# Dirección estática temporal creada con ngrok en el host
+        port: 15158
         username: mj
         password: ${{ secrets.SSH_PASSWORD }}

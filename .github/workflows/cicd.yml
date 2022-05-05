@@ -32,8 +32,8 @@ jobs:
       run: s2i build https://github.com/mjbernal/prueba-gha.git --context-dir=mymodel-R seldonio/seldon-core-s2i-r:0.1 mjbernal/mymodel-r
 
     # Instalar Docker
-    - uses: docker-practice/actions-setup-docker@master
-    - run: docker images
+    #- uses: docker-practice/actions-setup-docker@master
+    #- run: docker images
 
     # Iniciar sesion en DockerHub
     - name: Login to Docker Hub

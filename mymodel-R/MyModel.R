@@ -16,7 +16,7 @@ predict.mymodel <- function(mymodel,newdata=list()) {
   pima.Datos.Train<-pima.Datos[pima.TrainIdx.80,]
 
   # Predict
-  predict(mymodel$model,pima.Datos.Train[individuo,])
+  write(predict(mymodel$model,pima.Datos.Train[individuo,]), "\n", stdout())
 }
 
 

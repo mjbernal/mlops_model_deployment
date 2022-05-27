@@ -34,8 +34,8 @@ jobs:
     - name: Docker Push
       run: docker push mjbernal/mymodel:latest
 
-    Conectarse a la maquina del host para descargar la imagen de DockerHub
-    Crear/iniciar un contenedor Docker con ella
+    #Conectarse a la maquina del host para descargar la imagen de DockerHub
+    #Crear/iniciar un contenedor Docker con ella
     - name: Acceder mediante SSH al host o servidor donde queremos desplegar el sevicio REST
       uses: garygrossgarten/github-action-ssh@release
       with:
